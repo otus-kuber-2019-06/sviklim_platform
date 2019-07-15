@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubernetes-intro-web
+  labels:
+    key: value
+spec:
+  volumes:
+    - name: kubernetes-intro-app-volume
+      emptyDir: {}
+  containers:
+    - name: kubernetes-intro-web-container
+      image: sviklim/kubernetes-intro-web
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: kubernetes-intro-app-volume
+          mountPath: /app
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "128m"
+        limits:
+          memory: "64Mi"
+          cpu: "256m"
+  initContainers:
+    - name: kubernetes-intro-init-container
+      image: busybox
+      command: ['sh', '-c', 'wget -O- https://raw.githubusercontent.com/express42/otus-platform-snippets/master/Module-02/Introduction-to-Kubernetes/wget.sh | sh']
+      volumeMounts:
+        - name: kubernetes-intro-app-volume
+          mountPath: /app
