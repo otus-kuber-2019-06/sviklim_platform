@@ -4,9 +4,9 @@ kind: ClusterRoleBinding
 metadata:
   name: carol-role-binding
 subjects:
-- kind: ServiceAccount
-  name: carol
-  namespace: prometheus
+- kind: Group
+  name: system:serviceaccounts:prometheus
+  apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
   name: carol
